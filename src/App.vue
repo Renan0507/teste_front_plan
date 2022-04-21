@@ -1,12 +1,25 @@
 <template>
   <div id="app">
     <nav>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+      <h2>
+        <router-link to="/">Listagem</router-link>
+      </h2>
     </nav>
     <router-view />
   </div>
 </template>
+
+<script>
+  export default {
+    
+    created() {
+      this.$http.get('/users/ping').then((response) => {
+        console.log(response);
+      })
+    }
+  }
+</script>
+
 
 <style>
 #app {
@@ -27,6 +40,6 @@ nav a {
 }
 
 nav a.router-link-exact-active {
-  color: #42b983;
+  color: #000000;
 }
 </style>
