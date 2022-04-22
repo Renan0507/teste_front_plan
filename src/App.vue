@@ -14,7 +14,7 @@
     
     created() {
       this.$http.get('/users/ping').then((response) => {
-        console.log(response);
+        console.log(response); // teste da conexão com API
       })
     }
   }

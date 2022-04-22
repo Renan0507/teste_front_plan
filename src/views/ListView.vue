@@ -43,11 +43,16 @@
             ></b-form-file>
           </div>
         </div>
-        <div class="row mt-4">
-          <div class="col-12">
-            <b-button @click="criarUsuario" block variant="primary">Salvar</b-button>
+
+        <template #modal-footer>
+          <div class="row mt-4">
+            <div class="col-12">
+              <b-button @click="criarUsuario" block variant="primary"
+                >Salvar</b-button
+              >
+            </div>
           </div>
-        </div>
+        </template>
       </b-modal>
     </div>
 
@@ -68,13 +73,15 @@
           <td>{{ user.name }}</td>
           <td>{{ user.email }}</td>
           <td>{{ user.phone }}</td>
-          <td><a :href= user.image target="_blank">Ver imagem</a></td>
+          <td><a :href="user.image" target="_blank">Ver imagem</a></td>
           <td>
-            <router-link :to="{name:'editar', params:{usuario:user.id}}">
+            <router-link :to="{ name: 'editar', params: { usuario: user.id } }">
               <b-button variant="warning">Editar</b-button>
             </router-link>
 
-            <b-button @click="excluir(user.id)" variant="danger">Deletar</b-button>
+            <b-button @click="excluir(user.id)" variant="danger"
+              >Deletar</b-button
+            >
           </td>
         </tr>
       </tbody>
@@ -88,59 +95,59 @@ export default {
     return {
       listagem: [],
       image: null,
-      name: '',
-      password: '',
-      email: '',
-      phone: ''
+      name: "",
+      password: "",
+      email: "",
+      phone: "",
     };
   },
   methods: {
-    adicionarListagem() {
-
-    },
+    adicionarListagem() {},
     criarUsuario() {
       var file = this.$refs.file.files[0];
-      var form = '';
-      form = new FormData()
-      form.append('image', file);
-      form.append('name', this.name);
-      form.append('email', this.email);
-      form.append('password', this.password);
-      form.append('phone', this.phone);
+      var form = "";
+      form = new FormData();
+      form.append("image", file);
+      form.append("name", this.name);
+      form.append("email", this.email);
+      form.append("password", this.password);
+      form.append("phone", this.phone);
 
-      this.$http.post('users/', form).then((response) => {
-        this.listagem.push(response.data)
-        this.name = ''
-        this.email = ''
-        this.password = ''
-        this.phone = ''
-        this.image = null
+      this.$http
+        .post("users/", form)
+        .then((response) => {
+          this.listagem.push(response.data);
+          this.name = "";
+          this.email = "";
+          this.password = "";
+          this.phone = "";
+          this.image = null;
 
-        alert('Usuário cadastrado com sucesso');
-      })
-      .catch(() => {
-        alert('Dados inválidos')
-      })
+          alert("Usuário cadastrado com sucesso");
+        })
+        .catch(() => {
+          alert("Dados inválidos");
+        });
     },
     listar() {
-      this.$http.get('users/').then((response) => {
-        
+      this.$http
+        .get("users/")
+        .then((response) => {
           this.listagem = response.data;
-
-      })
-      .catch(() => {
-         alert('Nenhum usuário encontrado')
-      })
+        })
+        .catch(() => {
+          alert("Nenhum usuário encontrado");
+        });
     },
-    excluir(id_usuario)  {
+    excluir(id_usuario) {
       this.$http.delete(`users/${id_usuario}`).then((response) => {
         alert(`Usuário ${response.data.id} deletado com sucesso`);
-        this.listar()
-      })
-    }
+        this.listar();
+      });
+    },
   },
   created() {
-    this.listar()
+    this.listar();
   },
 };
 </script>
